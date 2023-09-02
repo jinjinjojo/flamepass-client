@@ -1,0 +1,305 @@
+---
+import Hamburger from "./Burger.astro";
+import Link from "./Link.astro";
+import "./header.css";
+import "./switch.css";
+
+const { background, data: url } = Astro.props;
+
+const routes = [
+  { id: 1, title: "Search", path: ["/"] },
+  // { id: 2, title: "AI", path: ["/ai", "/ai/"] },
+  { id: 3, title: "Games", path: ["/games", "/games/"] },
+  // { id: 4, title: "Music", path: ["/music", "/music/"] },
+  // { id: 5, title: "Credits", path: ["/credits", "/credits/"] },
+  // { id: 6, title: "Settings", path: [
+  //   "/settings/general", "/settings/general/",
+  //   "/settings/privacy", "/settings/privacy/",
+  //   "/settings/theme", "/settings/theme/",
+  //   "/settings/cloaking", "/settings/cloaking/",
+  //   "/settings/unblock", "/settings/unblock/",
+  // ] },
+];
+
+const currentLocation = routes.find((route) => route.path.includes(url.pathname));
+
+const currentDate = new Date().getTime();
+---
+
+<!-- There's an error with how the css works on .top-left and .top-right but I couldn't figure it out -->
+<div class="header">
+  <div class="top">
+    <div class="top-left">
+      <!-- <a href="/" data-cold><img src="/favicon.svg" class="nav-icon" alt="logo" /></a>
+      <hr class="nav-slash" /> -->
+      <a href="/">
+        <img src="/tn.png" class="tn-icon" alt="logo" />
+      </a>
+      <div class="bottom">
+    <div class="nav-btns">
+      <div id="nav-move" class="nav-move"></div>
+      {
+        routes.map((route) => (
+          <Link
+            class={`nav-btn ${
+              currentLocation && currentLocation.id == route.id ? "active" : ""
+            }`}
+            href={route.path[0]}
+          >
+            <span class="nav-btn-title">{route.title}</span>
+          </a>
+        ))
+      }
+    </div>
+    <!-- <div class="nav-time">
+      <span class="nav-time-text clock-text"
+        >{
+          currentDate ? new Date(currentDate).toLocaleTimeString() : `0:0:0 AM`
+        }</span
+      >
+      <span class="nav-time-text date-text"
+        >{
+          currentDate ? new Date(currentDate).toLocaleDateString() : `0/0/0000`
+        }</span
+      >
+    </div> -->
+  </div>
+
+      <!-- <div class="switch-btn-container">
+        <div class="switch-btn-current">
+          <img src="/Ultraviolet.png" />
+        </div>
+        <div class="switch-btn" style={{ background: background || "var(--primary-bg-color)" }}>
+          <a data-value="Dynamic">
+            <img src="/Dynamic.png" class="nav-switch-img" />
+            Dynamic
+          </a>
+          <a data-value="Ultraviolet">
+            <img src="/Ultraviolet.png" class="nav-switch-img" />
+            Ultraviolet
+          </a>
+          <a data-value="Rammerhead">
+            <img src="/Rammerhead.png" class="nav-switch-img" />
+            Rammerhead
+          </a>
+        </div> -->
+      </div>
+      <div class="focus-mode-container">
+        <!-- <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="1.3em"
+          viewBox="0 0 448 512"
+        >
+          <style>
+            .toggle-button {
+              fill: #3d5afe;
+              transition: fill 0.3s ease;
+            }
+
+            .toggle-button:hover {
+              fill: #536dfe;
+            }
+          </style>
+          <path
+            class="toggle-button"
+            d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H64V352zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32H320zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32V352z"
+          ></path>
+        </svg> -->
+      </div>
+      <Hamburger>
+        <a href="https://classroom.google.com" class="hamburger-link" id="panic-button" target="_self">Panic</a>
+        <Link href="/credits" class="hamburger-link">Credits</Link>
+        <Link href="/privacy" class="hamburger-link">Privacy Policy</Link>
+        <Link href="/terms" class="hamburger-link">Terms of Service</Link>
+      </Hamburger>
+    </div>
+
+    <div class="top-right">
+      <!-- -->
+
+      <!-- <a class="extra-btn" href="https://discord.gg/unblock">
+        <span class="nav-btn-title">Discord</span>
+      </a> -->
+
+      <!-- <Link class="extra-btn" href="/changelog">
+        <span class="nav-btn-title">Changelog</span>
+      </Link>
+
+      <Link class="extra-btn" href="https://docs.titaniumnetwork.dev">
+        <span class="nav-btn-title">Docs</span>
+      </Link> -->
+
+      
+    </div>
+  </div>
+
+  <div class="top-banner" />
+</div>
+
+<script is:inline>
+  (function () {
+    let hovered = false;
+
+    onclick = function (e) {
+      if (
+        recursive(document.getElementsByClassName("switch-btn")[0]).includes(
+          e.target
+        )
+      )
+        return;
+
+      const switchBtn = document.getElementsByClassName("switch-btn")[0];
+
+      if (switchBtn.style.display == "block") {
+        switchBtn.style.opacity = "0";
+        setTimeout(function () {
+          switchBtn.style.display = "none";
+        }, 100);
+      }
+    };
+
+    let onHover = (e) => {
+      if (e.target.tagName !== "A") return;
+
+      const rect = e.target.getBoundingClientRect();
+
+      document.getElementById("nav-move").style.width = rect.width - 10 + "px";
+      document.getElementById("nav-move").style.height = rect.height + 4 + "px";
+
+      requestAnimationFrame(() => {
+        document.getElementById("nav-move").style.display = "block";
+        document.getElementById("nav-move").style.opacity = "1";
+      });
+
+      if (!hovered) {
+        document.getElementById("nav-move").style.transition = `0`;
+        document.getElementById("nav-move").style.opacity = "0";
+        document.getElementById("nav-move").style.transition = `0.2s`;
+      }
+
+      document.getElementById("nav-move").style.left = `${rect.x - 14 + 5}px`;
+
+      hovered = true;
+    };
+
+    let noHover = (e) => {
+      if (e.target.tagName !== "A") return;
+
+      const rect = e.target.getBoundingClientRect();
+
+      if (e.clientY >= rect.bottom || e.clientY <= rect.top) {
+        hovered = false;
+        document.getElementById("nav-move").style.opacity = "0";
+        setTimeout(function () {
+          document.getElementById("nav-move").style.display = "none";
+        }, 200);
+      }
+    };
+
+    let toggleSwitchBtn = (e) => {
+      const switchBtn = document.getElementsByClassName("switch-btn")[0];
+
+      if (switchBtn.style.display == "block") {
+        switchBtn.style.opacity = "0";
+        setTimeout(function () {
+          switchBtn.style.display = "none";
+        }, 100);
+      } else {
+        switchBtn.style.display = "block";
+        requestAnimationFrame(() => {
+          switchBtn.style.opacity = "1";
+        });
+      }
+
+      return e.stopPropagation();
+    };
+
+    let switchProxy = (e) => {
+      const proxy = e.target.dataset.value;
+
+      document.cookie = `astro-proxy=${proxy}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+
+      e.target.parentNode.style.opacity = "0";
+
+      document.querySelector(".switch-btn-current img").src =
+        "/" + proxy + ".png";
+
+      setTimeout(function () {
+        e.target.parentNode.style.display = "none";
+      }, 100);
+
+      return;
+    };
+
+    let recursive = (el) => {
+      var arr = [];
+
+      function iterate(el) {
+        if (el.childNodes)
+          el.childNodes.forEach((e) => (arr.push(e), iterate(e)));
+
+        return;
+      }
+
+      arr.push(el);
+
+      iterate(el);
+
+      return arr;
+    };
+
+    let switchBtnCurrent = document.querySelector(".switch-btn-current"),
+      switchBtns = document.querySelectorAll("a[data-value]"),
+      hamburgerLink = document.querySelector(".hamburger-link"),
+      navBtns = document.querySelectorAll(".nav-btn");
+
+    switchBtnCurrent.onclick = toggleSwitchBtn;
+    switchBtns.forEach((btn) => (btn.onclick = switchProxy));
+    hamburgerLink.onclick = (e) =>
+      e.preventDefault() ||
+      (typeof window !== "undefined" &&
+        window.location.replace("https://classroom.google.com"));
+    navBtns.forEach((btn) => {
+      btn.onmouseover = onHover;
+      btn.onmouseleave = noHover;
+    });
+
+    let focusMode = "off";
+    let focusButton = document.querySelector(".focus-mode-container");
+    focusButton.onclick = () => {
+      const top = document.querySelector(".top");
+      const bottom = document.querySelector(".bottom");
+      const topRight = document.querySelector(".top-right");
+      const topLeft = document.querySelector(".top-left");
+      const navTime = document.querySelector(".nav-time");
+      const siteFooter = document.querySelector(".site-footer");
+      const navBtnsElement = document.querySelector(".nav-btns");
+      
+      if (focusMode == "off") {
+          focusMode = "on";
+          top.style.display = "none";
+          bottom.style.marginTop = "10px";
+          let hamburger = document.getElementById("burger-container")
+          navBtnsElement.insertBefore(focusButton, navBtnsElement.firstChild)
+          navTime.appendChild(hamburger);
+          siteFooter.style.display = "none";
+          document.body.requestFullscreen();
+          return;
+      }
+
+      if (focusMode == "on") {
+          focusMode = "off";
+          top.style.display = "flex";
+          bottom.style.marginTop = "";
+          topLeft.appendChild(focusButton);
+          let hamburger = document.getElementById("burger-container")
+          topRight.appendChild(hamburger);
+          siteFooter.style.display = "block";
+          document.exitFullscreen();
+          return;
+      }
+    };
+    
+    document.getElementById('panic-button').href = localStorage.getItem('panic-url') || 'https://classroom.google.com/';
+  })();
+</script>
